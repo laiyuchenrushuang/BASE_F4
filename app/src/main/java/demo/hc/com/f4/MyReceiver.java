@@ -12,7 +12,7 @@ import android.widget.Toast;
 public class MyReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
-        showToast("owner gb");
+            showToast("owner gb");
     }
 
     private void showToast(String msg) {

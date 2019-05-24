@@ -13,7 +13,7 @@ import android.widget.Button;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class MainActivity extends BaseActivity implements View.OnClickListener {
+public class MainActivity extends BaseActivity implements View.OnClickListener ,APPUtil{
 
     @BindView(R.id.bt_1)
     Button bt_gb;
@@ -22,8 +22,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     @BindView(R.id.bt_3)
     Button bt_intent;
 
-    private String LYGB_ACTION = "laiyu_broatcast";
-    private String PERMISSION_OWNER = "permission_owner";
+
     //private MyReceiver myReceiver; 想静态注册
 
     @Override
@@ -42,6 +41,13 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         registerReceiver(mBroadcastReceiver, filter);
 
         //registerReceiver(myReceiver,filter,PERMISSION_OWNER,null);//handler?
+
+
+        MyReceiver myReceiver = new MyReceiver();
+        IntentFilter filtermy = new IntentFilter();
+        filtermy.addAction(APPUtil.LYGB_ACTION_OWNER); // 只有持有相同的action的接受者才能接收此广播
+        registerReceiver(myReceiver, filter,APPUtil.P_LYGB_RECEIVE_OWNER,null);
+
     }
 
     private void initEvent() {
@@ -80,9 +86,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 
     private void sendGBowner() {
         Intent intent = new Intent();
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        intent.setAction(LYGB_ACTION);
-        this.sendBroadcast(intent, PERMISSION_OWNER);
+        intent.setAction(LYGB_ACTION_OWNER);
+        sendBroadcast(intent, APPUtil.P_LYGB_RECEIVE_OWNER);
     }
 
     private void sendGB() {
