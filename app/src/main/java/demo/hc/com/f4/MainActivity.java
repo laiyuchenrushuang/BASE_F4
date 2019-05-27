@@ -72,16 +72,23 @@ public class MainActivity extends BaseActivity implements View.OnClickListener ,
     }
 
     private void intentSystemUI() {
-        //https://blog.csdn.net/w690333243/article/details/78082176  上面很多指令
+        //https://blog.csdn.net/w690333243/article/details/78082176  面很多指令
+        //指令查询
         Intent intent = new Intent();
-        String pcgName = "com.android.settings";
+        String pcgName = null;
+        String clsName = null;
+        Log.d("lylog","  BAND = "+android.os.Build.BRAND);
+        if (android.os.Build.BRAND.equals("HUAWEI") || android.os.Build.BRAND.equals("HONOR")) {
+            pcgName = "com.android.settings";
 //        String clsName = "com.android.settings.Settings$SecuritySettingsActivity"; // skip OK
-        String clsName = "com.android.settings.Settings";
+            clsName = "com.android.settings.fingerprint.FingerprintSettingsActivity";
+
 
         ComponentName componentName = new ComponentName(pcgName, clsName);
         intent.setComponent(componentName);
         intent.setAction("android.intent.action.VIEW");
         startActivity(intent);
+        }
     }
 
     private void sendGBowner() {
