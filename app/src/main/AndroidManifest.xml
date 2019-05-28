@@ -3,17 +3,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="demo.hc.com.f4">
 
-    <uses-permission android:name="laiyu_send_owner" ></uses-permission>
+
+    <uses-permission android:name="laiyu.receive.owner" ></uses-permission>
     <permission
-        android:name="laiyu_send_owner"
-        android:protectionLevel="normal">
-
-    </permission>
-
-    <uses-permission android:name="laiyu_receive_owner" ></uses-permission>
-
-    <permission
-        android:name="laiyu_receive_owner"
+        android:name="laiyu.receive.owner"
         android:protectionLevel="normal">
     </permission>
 
@@ -33,11 +26,12 @@
             </intent-filter>
         </activity>
         <receiver android:name=".MyReceiver"
-            android:permission="laiyu_receive_owner">
+            android:permission="laiyu.receive.owner">
             <intent-filter>
-                <action android:name="laiyu_broatcast_owner"></action>
+                <action android:name="laiyu_broatcast_owner" />
                 <category android:name="receiver" />
             </intent-filter>
+
         </receiver>
 
     </application>

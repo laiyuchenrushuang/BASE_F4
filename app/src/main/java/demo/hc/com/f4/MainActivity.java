@@ -13,7 +13,7 @@ import android.widget.Button;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class MainActivity extends BaseActivity implements View.OnClickListener ,APPUtil{
+public class MainActivity extends BaseActivity implements View.OnClickListener{
 
     @BindView(R.id.bt_1)
     Button bt_gb;
@@ -37,17 +37,16 @@ public class MainActivity extends BaseActivity implements View.OnClickListener ,
 
     private void registerbroatcast() {
         IntentFilter filter = new IntentFilter();
-        filter.addAction(LYGB_ACTION);
+        filter.addAction(APPUtil.LYGB_ACTION);
         registerReceiver(mBroadcastReceiver, filter);
 
         //registerReceiver(myReceiver,filter,PERMISSION_OWNER,null);//handler?
 
 
-        MyReceiver myReceiver = new MyReceiver();
-        IntentFilter filtermy = new IntentFilter();
-        filtermy.addAction(APPUtil.LYGB_ACTION_OWNER); // 只有持有相同的action的接受者才能接收此广播
-        registerReceiver(myReceiver, filter,APPUtil.P_LYGB_RECEIVE_OWNER,null);
-
+//        MyReceiver myReceiver = new MyReceiver();
+//        IntentFilter filtermy = new IntentFilter();
+//        filtermy.addAction(APPUtil.LYGB_ACTION_OWNER);
+//        registerReceiver(myReceiver, filtermy,APPUtil.P_LYGB_RECEIVE_OWNER,null);  //静态注册 注意Category一致
     }
 
     private void initEvent() {
@@ -73,7 +72,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener ,
 
     private void intentSystemUI() {
         //https://blog.csdn.net/w690333243/article/details/78082176  面很多指令
-        //指令查询
+        //指令查询  1.adb shell am start -n demo.hc.com.f4/demo.hc.com.f4.MainActivity
+        //         2.查看当前的activity ： adb shell dumpsys activity | grep -i run
         Intent intent = new Intent();
         String pcgName = null;
         String clsName = null;
@@ -92,16 +92,18 @@ public class MainActivity extends BaseActivity implements View.OnClickListener ,
     }
 
     private void sendGBowner() {
-        Intent intent = new Intent();
-        intent.setAction(LYGB_ACTION_OWNER);
-        sendBroadcast(intent, APPUtil.P_LYGB_RECEIVE_OWNER);
+        Intent intent = new Intent(APPUtil.LYGB_ACTION_OWNER);
+        intent.addCategory("receiver");//静态文件 注意Category一致
+        intent.putExtra("message", "haha");
+        sendOrderedBroadcast(intent, APPUtil.P_LYGB_RECEIVE_OWNER);
+        Log.d("lylog"," sendGB Action LYGB_ACTION_OWNER");
     }
 
     private void sendGB() {
 
         Intent intent = new Intent();
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        intent.setAction(LYGB_ACTION);
+        intent.setAction(APPUtil.LYGB_ACTION);
         this.sendBroadcast(intent);
     }
 
@@ -110,7 +112,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener ,
         public void onReceive(Context context, Intent intent) //onReceive函数不能做耗时的事情，参考值：10s以内
         {
             String action = intent.getAction();
-            if (action.equals(LYGB_ACTION)) {
+            if (action.equals(APPUtil.LYGB_ACTION)) {
                 showToast("GB receive");
             }
         }
