@@ -21,7 +21,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
     Button bt_gbo;
     @BindView(R.id.bt_3)
     Button bt_intent;
-
+    @BindView(R.id.bt_4)
+    Button bt_service;
 
     //private MyReceiver myReceiver; 想静态注册
 
@@ -53,6 +54,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
         bt_gb.setOnClickListener(this);
         bt_gbo.setOnClickListener(this);
         bt_intent.setOnClickListener(this);
+        bt_service.setOnClickListener(this);
     }
 
     @Override
@@ -67,7 +69,19 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
             case R.id.bt_3://INTENT
                 intentSystemUI();
                 break;
+            case R.id.bt_4://service
+                startservrice();
+                break;
         }
+    }
+
+    private void startservrice() {
+        Intent intent = new Intent(this,MyService.class);
+        intent.setAction("myservice");
+        Bundle bundle  = new Bundle();
+        bundle.putInt("lyc", 219);
+        intent.putExtras(bundle);
+        startService(intent);
     }
 
     private void intentSystemUI() {
@@ -96,11 +110,9 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
         intent.addCategory("receiver");//静态文件 注意Category一致
         intent.putExtra("message", "haha");
         sendOrderedBroadcast(intent, APPUtil.P_LYGB_RECEIVE_OWNER);
-        Log.d("lylog"," sendGB Action LYGB_ACTION_OWNER");
     }
 
     private void sendGB() {
-
         Intent intent = new Intent();
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         intent.setAction(APPUtil.LYGB_ACTION);

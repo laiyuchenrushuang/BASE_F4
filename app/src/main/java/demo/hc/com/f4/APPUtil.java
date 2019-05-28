@@ -10,6 +10,11 @@ import android.os.ParcelUuid;
 
 public interface APPUtil {
     String LYGB_ACTION = "laiyu_broatcast";
-    String P_LYGB_RECEIVE_OWNER = "laiyu.receive.owner";
     String LYGB_ACTION_OWNER = "laiyu_broatcast_owner";
+
+    String P_LYGB_RECEIVE_OWNER = "laiyu.receive.owner";
+    String P_LYGB_SEND_OWNER = "laiyu.owner.send";
+
+
+    void showToast(String msg);
 }

@@ -10,6 +10,7 @@
         android:protectionLevel="normal">
     </permission>
 
+
     <application
         android:name=".Myapplication"
         android:allowBackup="true"
@@ -33,6 +34,10 @@
             </intent-filter>
 
         </receiver>
-
+        <service android:name=".MyService" >
+            <intent-filter>
+                <action android:name="myservice"/>
+            </intent-filter>
+        </service>
     </application>
 </manifest>
